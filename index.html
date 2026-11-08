@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://missionstack1.github.io/">
 <meta name="theme-color" content="#0b0f14">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b0f14'/%3E%3Cpath d='M14 46V18l18 16 18-16v28' fill='none' stroke='%2314b8a6' stroke-width='6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="/logo.svg">
 <style>
 :root{
   --bg:#0b0f14; --bg2:#0f141b; --panel:#111821; --line:#1f2a36;
@@ -37,7 +37,7 @@ a:hover{text-decoration:underline}
 header{position:sticky;top:0;z-index:5;background:rgba(11,15,20,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 nav{display:flex;align-items:center;justify-content:space-between;height:64px}
 .brand{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.14em;font-size:.8rem;color:var(--text)}
-.brand svg{width:28px;height:28px}
+.brand img{width:40px;height:40px;filter:drop-shadow(0 0 10px rgba(0,216,251,.45))}.brand .wm{display:flex;flex-direction:column;line-height:1}.brand .wm b{font-size:1.05rem;font-weight:800;letter-spacing:.02em}.brand .wm small{font-size:.55rem;letter-spacing:.34em;color:var(--muted);font-weight:600;margin-top:4px}
 nav ul{display:flex;gap:1.4rem;list-style:none;margin:0;padding:0}
 nav ul a{color:var(--muted);font-size:.9rem}
 nav ul a:hover{color:var(--text);text-decoration:none}
@@ -50,7 +50,9 @@ nav ul a:hover{color:var(--text);text-decoration:none}
 .btn-amber{background:var(--amber);color:#2a1700}
 @media(max-width:720px){nav ul{display:none}}
 
-.hero{padding:96px 0 72px;position:relative}
+.hero{padding:72px 0 72px;position:relative}
+.hero-logo{width:96px;height:96px;margin-bottom:1.2rem;filter:drop-shadow(0 0 24px rgba(0,216,251,.45));animation:float 5s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 .hero h1{font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.05;margin:1rem 0 1.2rem;font-weight:800;letter-spacing:-.02em}
 .hero h1 span{display:block}
 .hero h1 .accent{color:var(--teal)}
@@ -132,8 +134,7 @@ footer a{color:var(--muted)}
   <div class="wrap">
     <nav>
       <a class="brand" href="#top" aria-label="MissionStack Academy home">
-        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#111821" stroke="#1f2a36"/><path d="M14 46V18l18 16 18-16v28" fill="none" stroke="#14b8a6" stroke-width="6" stroke-linejoin="round"/></svg>
-        MISSIONSTACK ACADEMY
+        <img src="/logo.svg" alt=""><span class="wm"><b>MISSIONSTACK</b><small>ACADEMY</small></span>
       </a>
       <ul>
         <li><a href="#paths">Paths</a></li>
@@ -150,7 +151,7 @@ footer a{color:var(--muted)}
 <main id="top" class="wrap">
 
 <div class="hero">
-  <div class="mono tag">Mission / Learn. Build. Apply.</div>
+  <img src="/logo.svg" alt="MissionStack Academy" class="hero-logo"><div class="mono tag">Mission / Learn. Build. Apply.</div>
   <div class="typed" id="typed" aria-live="polite"></div>
   <h1><span>Learn the systems.</span><span>Master the code.</span><span class="accent">Complete the mission.</span></h1>
   <p class="lead">From your first Python script to connected engineering projects. Code, data, Linux, defensive security, drones, and simulation — one focused mission at a time. Built for curious beginners, students, career changers, and hands-on engineers.</p>
