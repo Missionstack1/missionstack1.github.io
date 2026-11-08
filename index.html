@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MissionStack Academy — Learn the systems. Master the code. Complete the mission.</title>
+<meta name="description" content="MissionStack Academy: hands-on technical training in Linux, Python, databases, data analytics, defensive cybersecurity, UAS/FPV engineering, and simulation — for youth and adult learners. First lesson of every path is free.">
+<meta property="og:title" content="MissionStack Academy">
+<meta property="og:description" content="Learn the systems. Master the code. Complete the mission. Nine learning paths, one connected mindset.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://missionstack1.github.io/">
+<meta name="theme-color" content="#0b0f14">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230b0f14'/%3E%3Cpath d='M14 46V18l18 16 18-16v28' fill='none' stroke='%2314b8a6' stroke-width='6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#0b0f14; --bg2:#0f141b; --panel:#111821; --line:#1f2a36;
+  --text:#e8f0f8; --muted:#94a3b8; --teal:#14b8a6; --teal2:#0d9488; --amber:#f59e0b;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Inter,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(20,184,166,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(20,184,166,.05) 1px,transparent 1px);
+  background-size:48px 48px;mask-image:radial-gradient(ellipse at 50% 0%,#000 30%,transparent 75%)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+  background:repeating-linear-gradient(0deg,transparent 0 2px,rgba(0,0,0,.18) 2px 3px)}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:0 20px}
+.mono{font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;font-size:.72rem;color:var(--muted)}
+.tag{display:inline-flex;align-items:center;gap:.5rem}
+.tag::before{content:"";width:8px;height:8px;background:var(--teal);box-shadow:0 0 12px var(--teal);animation:blink 1.6s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+
+header{position:sticky;top:0;z-index:5;background:rgba(11,15,20,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.14em;font-size:.8rem;color:var(--text)}
+.brand svg{width:28px;height:28px}
+nav ul{display:flex;gap:1.4rem;list-style:none;margin:0;padding:0}
+nav ul a{color:var(--muted);font-size:.9rem}
+nav ul a:hover{color:var(--text);text-decoration:none}
+.btn{display:inline-block;padding:.75rem 1.2rem;border-radius:6px;font-weight:600;font-size:.92rem;border:1px solid transparent;transition:transform .15s,box-shadow .15s}
+.btn:hover{text-decoration:none;transform:translateY(-1px)}
+.btn-primary{background:var(--teal);color:#06211e;box-shadow:0 0 0 0 rgba(20,184,166,.5)}
+.btn-primary:hover{box-shadow:0 0 24px rgba(20,184,166,.45)}
+.btn-ghost{border-color:var(--line);color:var(--text)}
+.btn-ghost:hover{border-color:var(--teal)}
+.btn-amber{background:var(--amber);color:#2a1700}
+@media(max-width:720px){nav ul{display:none}}
+
+.hero{padding:96px 0 72px;position:relative}
+.hero h1{font-size:clamp(2.2rem,6vw,4.4rem);line-height:1.05;margin:1rem 0 1.2rem;font-weight:800;letter-spacing:-.02em}
+.hero h1 span{display:block}
+.hero h1 .accent{color:var(--teal)}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:620px}
+.cta{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:1.8rem}
+.typed{font-family:var(--mono);color:var(--teal);font-size:.8rem;letter-spacing:.1em;min-height:1.2em}
+.typed::after{content:"▌";animation:blink 1s infinite;margin-left:2px}
+.hud{position:absolute;right:20px;top:96px;width:300px;border:1px solid var(--line);background:rgba(17,24,33,.7);padding:14px 16px;border-radius:8px;font-family:var(--mono);font-size:.7rem;color:var(--muted);display:none}
+@media(min-width:960px){.hud{display:block}}
+.hud div{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--line)}
+.hud div:last-child{border:0}
+.hud b{color:var(--teal);font-weight:600}
+.hud .amb{color:var(--amber)}
+
+section{padding:72px 0;border-top:1px solid var(--line)}
+.sec-head{display:flex;flex-direction:column;gap:.5rem;margin-bottom:2rem}
+h2{font-size:clamp(1.6rem,3.5vw,2.4rem);margin:0;letter-spacing:-.01em;line-height:1.15}
+h2 span{color:var(--teal)}
+.sub{color:var(--muted);max-width:640px;margin:0}
+
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;position:relative;overflow:hidden;transition:border-color .2s,transform .2s}
+.card:hover{border-color:var(--teal);transform:translateY(-2px)}
+.card .num{font-family:var(--mono);font-size:.7rem;color:var(--amber);letter-spacing:.1em}
+.card h3{margin:.4rem 0 .4rem;font-size:1.05rem}
+.card p{margin:0;color:var(--muted);font-size:.9rem}
+.card a.more{display:inline-block;margin-top:.8rem;font-size:.82rem;font-family:var(--mono);letter-spacing:.06em}
+.card::after{content:"";position:absolute;right:-30px;top:-30px;width:80px;height:80px;border-radius:50%;background:radial-gradient(circle,rgba(20,184,166,.18),transparent 70%)}
+
+.split{display:grid;gap:24px;grid-template-columns:1fr 1fr}
+@media(max-width:820px){.split{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px}
+.panel h3{margin:0 0 .6rem;font-size:1.25rem}
+.panel ul{margin:.6rem 0 0;padding-left:1.1rem;color:var(--muted)}
+.panel li{margin:.3rem 0}
+.panel.youth{border-color:rgba(245,158,11,.5)}
+.panel.youth h3{color:var(--amber)}
+
+.pricing{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));max-width:820px}
+.price{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px;position:relative}
+.price.pro{border-color:var(--teal);box-shadow:0 0 40px rgba(20,184,166,.12)}
+.price .badge{position:absolute;top:-12px;left:24px;background:var(--bg);border:1px solid var(--teal);color:var(--teal);font-family:var(--mono);font-size:.65rem;letter-spacing:.12em;padding:3px 8px;border-radius:4px}
+.price .amt{font-size:2.6rem;font-weight:800;margin:.4rem 0 0}
+.price .amt small{font-size:1rem;color:var(--muted);font-weight:500}
+.price .alt{color:var(--muted);font-size:.9rem}
+.price ul{padding-left:1.1rem;color:var(--muted);margin:1rem 0 1.4rem}
+.rule{border-left:3px solid var(--amber);padding:12px 16px;background:rgba(245,158,11,.06);border-radius:0 8px 8px 0;color:var(--text);margin-top:1.5rem;max-width:820px}
+.rule b{color:var(--amber)}
+
+.snap{display:grid;gap:18px;grid-template-columns:1.2fr .8fr}
+@media(max-width:820px){.snap{grid-template-columns:1fr}}
+.issue{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;min-height:180px}
+.issue .mono{color:var(--amber)}
+.issue h3{margin:.4rem 0;font-size:1.3rem}
+.issue-list{list-style:none;padding:0;margin:0}
+.issue-list li{border-bottom:1px dashed var(--line);padding:.6rem 0;display:flex;justify-content:space-between;gap:1rem;font-size:.92rem}
+.issue-list li span{color:var(--muted);font-family:var(--mono);font-size:.72rem;white-space:nowrap}
+.topics{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.8rem}
+.topics span{font-family:var(--mono);font-size:.68rem;letter-spacing:.06em;border:1px solid var(--line);padding:3px 8px;border-radius:4px;color:var(--muted)}
+
+.yt{display:flex;gap:20px;align-items:center;background:linear-gradient(135deg,rgba(20,184,166,.08),rgba(245,158,11,.06));border:1px solid var(--line);border-radius:12px;padding:26px}
+.yt .play{flex:0 0 72px;height:72px;border-radius:50%;background:var(--amber);display:grid;place-items:center;box-shadow:0 0 30px rgba(245,158,11,.35)}
+.yt .play::after{content:"";border-left:22px solid #2a1700;border-top:13px solid transparent;border-bottom:13px solid transparent;margin-left:5px}
+@media(max-width:600px){.yt{flex-direction:column;align-items:flex-start}}
+
+.final{text-align:center;padding:96px 0}
+.final h2{font-size:clamp(1.8rem,4vw,3rem)}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--muted);font-size:.85rem}
+footer .row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a{color:var(--muted)}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.typed::after,.tag::before{animation:none}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top" aria-label="MissionStack Academy home">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#111821" stroke="#1f2a36"/><path d="M14 46V18l18 16 18-16v28" fill="none" stroke="#14b8a6" stroke-width="6" stroke-linejoin="round"/></svg>
+        MISSIONSTACK ACADEMY
+      </a>
+      <ul>
+        <li><a href="#paths">Paths</a></li>
+        <li><a href="#who">Who it's for</a></li>
+        <li><a href="#pricing">Operator Pro</a></li>
+        <li><a href="#snapshot">Tech Snapshot</a></li>
+        <li><a href="#youtube">YouTube</a></li>
+      </ul>
+      <a class="btn btn-primary" href="https://missionstack.madethis.app/academy">Start a mission</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top" class="wrap">
+
+<div class="hero">
+  <div class="mono tag">Mission / Learn. Build. Apply.</div>
+  <div class="typed" id="typed" aria-live="polite"></div>
+  <h1><span>Learn the systems.</span><span>Master the code.</span><span class="accent">Complete the mission.</span></h1>
+  <p class="lead">From your first Python script to connected engineering projects. Code, data, Linux, defensive security, drones, and simulation — one focused mission at a time. Built for curious beginners, students, career changers, and hands-on engineers.</p>
+  <div class="cta">
+    <a class="btn btn-primary" href="https://missionstack.madethis.app/academy">Start a learning mission</a>
+    <a class="btn btn-ghost" href="#paths">Find your learning path</a>
+  </div>
+  <aside class="hud" aria-label="Academy status">
+    <div><span>MS / 001</span><b>ACADEMY BRIEFING</b></div>
+    <div><span>Paths</span><b>09 ACTIVE</b></div>
+    <div><span>Starter lessons</span><b>09 LIVE</b></div>
+    <div><span>Lesson 1 of every path</span><b>FREE</b></div>
+    <div><span>Operator Pro</span><b class="amb">COMING SOON</b></div>
+    <div><span>Tech Snapshot</span><b>WEEKLY · MON</b></div>
+  </aside>
+</div>
+
+<section id="paths">
+  <div class="sec-head reveal">
+    <div class="mono">01 / Learning architecture</div>
+    <h2>Nine paths. <span>One connected mindset.</span></h2>
+    <p class="sub">Start with a single discipline. Then connect the pieces: parse Linux logs with Python, analyze telemetry with Pandas, or query your results in PostgreSQL.</p>
+  </div>
+  <div class="grid" id="pathgrid"></div>
+</section>
+
+<section id="who">
+  <div class="sec-head reveal">
+    <div class="mono">02 / Who it's for</div>
+    <h2>Youth and adult learners. <span>Same systems, same standards.</span></h2>
+    <p class="sub">Clear foundations before complexity. Authorized, educational scenarios only. No government or certification claims — just real skills you can show.</p>
+  </div>
+  <div class="split">
+    <div class="panel youth reveal">
+      <div class="mono">Cadet track · ages 13+</div>
+      <h3>Build the habit of building.</h3>
+      <p class="sub">Game-style missions, browser-based practice (nothing to install), and safe, supervised scenarios. Perfect for students, homeschool families, clubs, and anyone who likes taking things apart to see how they work.</p>
+      <ul>
+        <li>First Python script in one sitting</li>
+        <li>Fly and tune a drone in simulation before touching hardware</li>
+        <li>Quizzes and graded exercises that track progress</li>
+      </ul>
+    </div>
+    <div class="panel reveal">
+      <div class="mono">Operator track · adults &amp; career changers</div>
+      <h3>Go from curious to capable.</h3>
+      <p class="sub">Portfolio-grade projects, Linux and database fundamentals that hiring managers actually test for, and defensive-security reps on authorized ranges. Built by a retired Special Forces engineer sergeant who learned this the hard way.</p>
+      <ul>
+        <li>Telemetry reports, log parsers, and data pipelines you can demo</li>
+        <li>Certificates and a portfolio page with Operator Pro</li>
+        <li>Integrated missions that chain the nine paths together</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="pricing">
+  <div class="sec-head reveal">
+    <div class="mono">03 / Memberships</div>
+    <h2>Choose your <span>mission scope.</span></h2>
+    <p class="sub">Every path starts free. Go deeper when you're ready.</p>
+  </div>
+  <div class="pricing">
+    <div class="price reveal">
+      <div class="mono">Free starter access</div>
+      <p class="amt">$0</p>
+      <p class="alt">No card. No install.</p>
+      <ul>
+        <li>Lesson 1 of all nine paths</li>
+        <li>Browser practice environment</li>
+        <li>Quizzes and basic account progress</li>
+        <li>Weekly Tech Snapshot</li>
+      </ul>
+      <a class="btn btn-ghost" href="https://missionstack.madethis.app/sign-in">Create a free account</a>
+    </div>
+    <div class="price pro reveal">
+      <span class="badge">Coming soon</span>
+      <div class="mono">Operator Pro</div>
+      <p class="amt">$24<small>/month</small></p>
+      <p class="alt">Or $199/year · save $89</p>
+      <ul>
+        <li>Lessons 2+ in every path</li>
+        <li>Full interactive labs and the UAS Hangar</li>
+        <li>Missions, certificates, portfolio projects</li>
+        <li>VECTOR tutoring (subject to usage limits)</li>
+      </ul>
+      <a class="btn btn-primary" href="https://missionstack.madethis.app/#pricing">Get notified</a>
+    </div>
+  </div>
+  <div class="rule reveal"><b>Access rule:</b> lesson 1 of every path is free for everyone. Lessons 2 and beyond require an Operator Pro enrollment once checkout opens.</div>
+</section>
+
+<section id="snapshot">
+  <div class="sec-head reveal">
+    <div class="mono">04 / Weekly intel</div>
+    <h2>Tech Snapshot. <span>Every Monday, 0540 Central.</span></h2>
+    <p class="sub">Advancements, shortfalls, geopolitical impacts, crypto, and breaking tech — Nintendo to Northrop Grumman, Nvidia to Palantir. Free for everyone.</p>
+  </div>
+  <div class="snap">
+    <div class="issue reveal" id="latest">
+      <div class="mono">Latest issue</div>
+      <h3>Loading…</h3>
+      <p class="sub" id="latest-summary"></p>
+      <div class="topics" id="latest-topics"></div>
+    </div>
+    <div class="issue reveal">
+      <div class="mono">Archive</div>
+      <ul class="issue-list" id="archive"></ul>
+      <p style="margin:1rem 0 0"><a class="mono" href="snapshots/">All issues →</a></p>
+    </div>
+  </div>
+</section>
+
+<section id="youtube">
+  <div class="sec-head reveal">
+    <div class="mono">05 / On video</div>
+    <h2>Mission Stack Academy <span>on YouTube.</span></h2>
+  </div>
+  <div class="yt reveal">
+    <div class="play" aria-hidden="true"></div>
+    <div>
+      <h3 style="margin:0 0 .4rem">Animated briefings. Real engineering.</h3>
+      <p class="sub">Short animated episodes that break down how computers, circuits, radios, and satellites actually work — then hand you the mission to go build it in the academy. Channel launching soon.</p>
+      <p style="margin:.8rem 0 0"><a class="btn btn-amber" href="https://missionstack.madethis.app/sign-in">Get launch updates</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="reveal">
+    <div class="mono tag" style="justify-content:center">Ready when you are</div>
+    <h2 style="margin:1rem 0">Start with curiosity.<br><span>Leave with capability.</span></h2>
+    <div class="cta" style="justify-content:center">
+      <a class="btn btn-primary" href="https://missionstack.madethis.app/academy">Explore learning paths</a>
+      <a class="btn btn-ghost" href="https://missionstack.madethis.app/courses">View the catalog</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap row">
+    <div>© <span id="yr"></span> MissionStack Academy · <a href="mailto:missionstack1@gmail.com">missionstack1@gmail.com</a></div>
+    <div><a href="https://missionstack.madethis.app">App</a> · <a href="snapshots/">Tech Snapshot</a> · <a href="https://github.com/Missionstack1">GitHub</a></div>
+  </div>
+</footer>
+
+<script>
+const APP='https://missionstack.madethis.app';
+const paths=[
+ ['Linux Operations','Shell, permissions, services, and logs — the floor every other system stands on.','linux-operations'],
+ ['Python Engineering','From first script to tooling you can ship: files, APIs, automation, tests.','python-engineering'],
+ ['PostgreSQL and Databases','Model data, write real SQL, and query your own mission results.','postgresql-databases'],
+ ['Pandas and Data Analytics','Turn telemetry and logs into analysis, charts, and reports.','pandas-analytics'],
+ ['Defensive Cybersecurity','Authorized, educational scenarios: hardening, detection, and response.','defensive-cybersecurity'],
+ ['UAS and FPV Engineering','Airframes, controllers, radios, and the UAS Hangar lab.','uas-fpv-engineering'],
+ ['UAS Simulation and Programming','Software-in-the-loop flight, telemetry, and autonomy concepts.','uas-simulation'],
+ ['Gaming and Simulation Development','Build game-style training interfaces and simulations.','gaming-simulation'],
+ ['Integrated Engineering Missions','Chain the paths together into portfolio-grade projects.','integrated-engineering'],
+];
+document.getElementById('pathgrid').innerHTML=paths.map((p,i)=>`<article class="card reveal"><div class="num">PATH / ${String(i+1).padStart(2,'0')}</div><h3>${p[0]}</h3><p>${p[1]}</p><a class="more" href="${APP}/academy/${p[2]}">Start lesson 1 (free) →</a></article>`).join('');
+
+// typed header
+const lines=['> INITIALIZING ACADEMY BRIEFING…','> NINE PATHS ONLINE','> LESSON 01 / ALL PATHS: FREE','> AWAITING OPERATOR INPUT_'];
+let li=0,ci=0;const el=document.getElementById('typed');
+(function type(){const l=lines[li];el.textContent=l.slice(0,++ci);if(ci<l.length)return setTimeout(type,28);setTimeout(()=>{if(li<lines.length-1){li++;ci=0;type();}},900);})();
+
+// reveal on scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+
+// Tech Snapshot manifest
+fetch('snapshots/manifest.json',{cache:'no-store'}).then(r=>r.json()).then(m=>{
+  const list=(m.issues||[]).slice().sort((a,b)=>b.date.localeCompare(a.date));
+  const L=document.getElementById('latest');
+  if(!list.length){L.querySelector('h3').textContent='First issue drops Monday.';document.getElementById('latest-summary').textContent='The weekly Tech Snapshot is scheduled. Check back Monday morning or create a free account to get it in the app.';}
+  else{const x=list[0];L.querySelector('h3').innerHTML=`<a href="snapshots/${x.file}">${x.title}</a>`;document.getElementById('latest-summary').textContent=x.summary||'';document.getElementById('latest-topics').innerHTML=(x.topics||[]).map(t=>`<span>${t}</span>`).join('');}
+  document.getElementById('archive').innerHTML=list.length?list.slice(0,6).map(x=>`<li><a href="snapshots/${x.file}">${x.title}</a><span>${x.date}</span></li>`).join(''):'<li><span>No issues yet</span></li>';
+}).catch(()=>{document.getElementById('latest').querySelector('h3').textContent='Tech Snapshot archive';});
+document.getElementById('yr').textContent=new Date().getFullYear();
+</script>
+</body>
+</html>
