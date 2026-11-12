@@ -2,5 +2,21 @@
   "title": "MissionStack Academy — Tech Snapshot",
   "home": "https://missionstack1.github.io/snapshots/",
   "schedule": "Mondays 05:40 America/Chicago",
-  "issues": []
+  "issues": [
+    {
+      "issue": 2,
+      "date": "2026-11-09",
+      "title": "Nvidia's board investigates its CEO; Starship aims for a double catch; rare-earth truce extended",
+      "summary": "Window Nov 2–9, 2026. Nvidia board probe, Starship Flight 15, Axon–Skydio, refrigeration attacks, SonicWall MFA bypass, Chainalysis breach, China rare-earth pause to Jan 10, chip index −12%, Bitcoin low $73,761, Binance post-mortem.",
+      "topics": [
+        "AI & chips",
+        "Space",
+        "Drones",
+        "Cyber",
+        "Geopolitics",
+        "Markets & crypto"
+      ],
+      "file": "2026-11-09.html"
+    }
+  ]
 }
