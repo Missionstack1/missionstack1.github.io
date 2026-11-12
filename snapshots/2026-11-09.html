@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MissionStack Tech Snapshot — Issue 02 — November 9, 2026</title>
+<meta name="description" content="The week in the whole stack, November 2 to 9, 2026: Nvidia board investigation, Starship double catch, Axon and Skydio, refrigeration attacks, rare earths, chips, crypto.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#0b0f14;--card:#101820;--border:#273744;--accent:#00d1ff;--accent-dim:rgba(0,209,255,.12);--fg:#e6edf3;--muted:#9fb0c0;--warn:#ffb454;--bad:#ff6b6b;--good:#3ddc97;--display:"Rajdhani","Inter",system-ui,sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(0,209,255,.35)}
+a:hover,a:focus-visible{border-bottom-color:var(--accent);outline:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:32px max(16px,env(safe-area-inset-left,0px)) 64px max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px}
+.topnav{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.topnav img{width:28px;height:28px}
+.topnav a{border:0;color:var(--muted)}
+.topnav a:hover{color:var(--accent)}
+header.masthead{display:grid;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:flex;flex-wrap:wrap;gap:8px 18px}
+.kicker span::before{content:"// ";color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1.02;margin:0;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+.dek{color:var(--muted);margin:0;max-width:62ch}
+.dek strong{color:var(--fg);font-weight:500}
+section.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 22px 24px;display:grid;gap:14px;min-width:0}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.num{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--accent);background:var(--accent-dim);padding:3px 8px;border-radius:4px;flex:none}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0;letter-spacing:.04em;text-transform:uppercase}
+h3{font-family:var(--display);font-weight:600;font-size:19px;line-height:1.2;margin:0 0 4px;letter-spacing:.02em}
+p{margin:0;max-width:68ch}
+p+p{margin-top:10px}
+.lede p{font-size:17px}
+.label{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.items{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.items li{display:grid;gap:4px;padding-left:14px;border-left:2px solid var(--border);min-width:0}
+.items li.hot{border-left-color:var(--accent)}.items li.bad{border-left-color:var(--bad)}.items li.warn{border-left-color:var(--warn)}.items li.good{border-left-color:var(--good)}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.src a{color:var(--accent)}
+.src::before{content:"src ";color:var(--border)}
+.numbers{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.numbers li{display:grid;grid-template-columns:minmax(92px,130px) 1fr;gap:4px 16px;align-items:start;padding:12px 0;border-top:1px solid var(--border);min-width:0}
+.numbers li:first-child{border-top:0;padding-top:0}
+.big{font-family:var(--display);font-weight:700;font-size:30px;line-height:1;font-variant-numeric:tabular-nums;color:var(--fg)}
+.big.down{color:var(--bad)}.big.up{color:var(--good)}
+.big small{display:block;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.08em;color:var(--muted);margin-top:6px;text-transform:uppercase}
+.calls{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.calls li{display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:start;padding:12px 14px;border:1px solid var(--border);border-radius:8px;min-width:0}
+.conf{font-family:var(--mono);font-size:13px;color:var(--accent);background:var(--accent-dim);border-radius:4px;padding:4px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.conf.pending{color:var(--warn);background:rgba(255,180,84,.12)}
+.grade{grid-column:1/-1;color:var(--muted);font-size:14px}
+.mission{border-color:var(--accent);background:linear-gradient(180deg,rgba(0,209,255,.08),var(--card) 60%)}
+.cta{display:inline-block;font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--accent);padding:10px 18px;border-radius:6px;border:0;justify-self:start}
+.cta:hover{background:#4fe0ff}
+.sources ol{margin:0;padding-left:22px;display:grid;gap:6px;font-size:13.5px;color:var(--muted)}
+.sources li{min-width:0;overflow-wrap:anywhere}
+footer.colophon{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:16px;display:grid;gap:6px}
+footer .mono{font-family:var(--mono);font-size:12px}
+@media (max-width:480px){section.card{padding:18px 16px 20px}.numbers li{grid-template-columns:1fr}.calls li{grid-template-columns:1fr}.conf{justify-self:start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="topnav"><img src="../logo.svg" alt=""><a href="../">MissionStack Academy</a><span>/</span><a href="./">Tech Snapshot archive</a></nav>
+<header class="masthead">
+  <div class="kicker"><span>MissionStack Academy</span><span>Issue 02</span><span>Monday, November 9, 2026</span></div>
+  <h1>MissionStack <em>Tech Snapshot</em></h1>
+  <p class="dek">The week in the whole stack, from game consoles to satellites. <strong>Window covered: November 2 to 9, 2026.</strong> Issue 01 went out November 8 as a preview edition; this is the full Monday issue, leading with what broke over the weekend. Plain language, every acronym spelled out once, every item linked to the page we actually read.</p>
+</header>
+
+<section class="card lede" aria-labelledby="s1">
+  <div class="sec-head"><span class="num">01</span><h2 id="s1">The Big One</h2></div>
+  <h3>Nvidia's board is investigating its own CEO over a suspected Chinese intelligence operation</h3>
+  <p>On Sunday, November 8, Nvidia's board of directors announced an independent investigation into reports that founder and chief executive officer (CEO) Jensen Huang was "the target of a foreign intelligence effort." A committee of independent directors with outside lawyers will run it. The reports center on Alice Huang (no relation), a former executive at Singapore-based Megaspeed, a company that bought more than $4.8 billion of Nvidia chips in two years; United States officials believe she worked for China's Ministry of State Security. Jensen Huang told staff he had been unfaithful to his wife and said he takes "full responsibility." The board said it has "no reason to believe" national security or company secrets were compromised.</p>
+  <p><strong>Why it matters.</strong> Nvidia makes the chips that train nearly every large artificial intelligence (AI) model, and its sales to China are already under a microscope. The New York Times reported on November 7 that two Chinese firms cleared by the U.S. Commerce Department to handle Nvidia H200 chips have empty offices or ties to blacklisted companies.</p>
+  <p><strong>What to watch.</strong> Huang's closed-door briefing with Congress on November 18, Nvidia's earnings on November 17, and whether the new Democratic-led Congress uses subpoena power in January.</p>
+  <p class="src"><a href="https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors">Nvidia board statement, Nov 8</a> · <a href="https://www.cbsnews.com/news/nvidia-jensen-huang-investigation-china-intelligence/">CBS News, Nov 8</a> · <a href="https://wccftech.com/us-approved-nvidia-h200-sales-chinese-firms-empty-offices-military-ties/">Wccftech on the NYT report, Nov 8</a></p>
+</section>
+
+<section class="card" aria-labelledby="s2">
+  <div class="sec-head"><span class="num">02</span><h2 id="s2">Advancements</h2></div>
+  <ul class="items">
+    <li class="good"><h3>SpaceX set a date to catch both halves of Starship</h3><p>Flight 15 is targeting Friday, November 13, with a 75-minute window opening at 5:45 p.m. Eastern, pending Federal Aviation Administration (FAA) approval. The plan: the new V3 Super Heavy booster returns to the launch tower, the ship flies about 14 orbits over 22 hours, releases 26 Starlink V3 satellites, then comes back for the first-ever ship catch. If both work, it would be the first full recovery of an orbital rocket.</p><p class="src"><a href="https://www.wftv.com/news/local/spacex-plans-first-ever-catch-starship-spacecraft-during-next-launch/EATBSQ7XXRACFOQHNXIVI66UHQ/">WFTV, Nov 8</a> · <a href="https://www.teslaoracle.com/2026/11/07/flight-15-starship-double-catch-to-happen-net-friday-the-13th-confirmed/">Tesla Oracle, Nov 7</a></p></li>
+    <li class="good"><h3>Axon put $1.2 billion into Skydio and became its police-market distributor</h3><p>The Taser and body-camera company raised its stake in the U.S. drone maker to 37 percent at a $5.2 billion valuation and will be Skydio's exclusive seller to police and fire departments in the U.S. and Canada. Skydio says 28 million Americans now live within two miles of a "drone as first responder" dock and expects about $1 billion in bookings this fiscal year.</p><p class="src"><a href="https://dronelife.com/2026/11/06/axon-skydio-investment-exclusive-drone-distribution/">DroneLife, Nov 6</a></p></li>
+    <li class="good"><h3>Google shut down a botnet built into 1.3 million Android TV boxes</h3><p>The "x.cpe" backdoor was preloaded in firmware on set-top boxes, karaoke machines, telehealth devices and signage, and reinstalled itself after every reboot. Google says the manufacturer, Videostrong, built it on purpose and sold access for proxying, ad fraud and malware loading. Google took the command servers offline in court, banned Videostrong from certified Android, and cut access to at least 10 million more devices.</p><p class="src"><a href="https://cloud.google.com/blog/topics/threat-intelligence/shutting-the-door-on-the-xcpe-botnet/">Google Threat Intelligence Group, Nov 2</a></p></li>
+    <li class="good"><h3>OpenAI released a cyber-only model, locked to vetted defenders</h3><p>GPT-6 Cyber is available only to customers in OpenAI's "Daybreak Red" program, with identity checks, IP allowlisting and blocks on critical infrastructure targets. OpenAI says the model found 81 new high-severity Firefox bugs that Mozilla is now fixing. It scored 48.5 percent on OpenAI's ExploitGym test versus 32.1 percent for the previous cyber model.</p><p class="src"><a href="https://cyberscoop.com/openai-gpt-6-cyber-security-model/">CyberScoop, Nov 5</a> · <a href="https://www.esecurityplanet.com/news/news-openai-gpt-6-cyber-security-benchmarks/">eSecurity Planet, Nov 6</a></p></li>
+    <li class="good"><h3>Apple's first touchscreen Macs reached customers</h3><p>The OLED (organic light-emitting diode) MacBook Pro shipped November 6 at $2,899 for 14 inches and $3,399 for 16 inches, about $400 above the mini-LED models that stay on sale. Same M5 Pro and M5 Max chips, but with tap, swipe and pinch input, a stiffer hinge, bigger menu targets in macOS, and about half a pound less weight.</p><p class="src"><a href="https://www.macrumors.com/2026/11/06/oled-macbook-pro-hands-on/">MacRumors, Nov 6</a></p></li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s3">
+  <div class="sec-head"><span class="num">03</span><h2 id="s3">Shortfalls</h2></div>
+  <ul class="items">
+    <li class="bad"><h3>Hackers are turning up the heat inside supermarket freezers and a blood bank</h3><p>A November 5 advisory from the Cybersecurity and Infrastructure Security Agency (CISA) and the Federal Bureau of Investigation (FBI) warns of attacks on industrial refrigeration controllers worldwide. Attackers remotely set temperatures and forced defrost cycles at supermarket chains in at least nine European countries, and an attack on a service provider pushed cold rooms at France's National Blood Service toward 110 degrees Celsius. The fix is unglamorous: get the controllers off the open internet.</p><p class="src"><a href="https://www.infosecurity-magazine.com/news/cisa-protect-refrigeration-networks/">Infosecurity Magazine, Nov 6</a></p></li>
+    <li class="bad"><h3>A SonicWall bug lets attackers skip multi-factor authentication on VPNs</h3><p>CVE-2026-19868 affects SonicOS SSL-VPN when SAML (Security Assertion Markup Language, the login hand-off used for single sign-on) is enabled. Someone with a stolen password for a secondary login method can bypass SAML and any multi-factor authentication (MFA) tied to it. CISA added it to the Known Exploited Vulnerabilities (KEV) list on November 6 with a federal patch deadline of November 20. Ivanti Connect Secure customers also face a November 13 KEV deadline for CVE-2026-118527.</p><p class="src"><a href="https://www.helpnetsecurity.com/2026/11/09/exploited-sonicwall-ssl-vpn-flaw-lets-attackers-bypass-saml-enforced-mfa-cve-2026-19868/">Help Net Security, Nov 9</a> · <a href="https://tech-insider.org/ivanti-connect-secure-cve-2026-111357-118527-kev-deadline-nov-13-2026/">Tech Insider, Nov 3</a></p></li>
+    <li class="bad"><h3>Chainalysis, the company that traces stolen crypto, got breached itself</h3><p>The blockchain-analysis firm confirmed on November 4 that an "on-path attack" exposed user IDs, names, emails, role labels and some customer passwords. It took its Reactor, KYT and address-screening products offline, forced password resets for every user and rotated API (application programming interface) keys. Chainalysis says the attack is unrelated to the Binance theft.</p><p class="src"><a href="https://www.techradar.com/pro/security/chainalysis-admits-all-users-affected-in-major-data-breach-names-usernames-password-hashes-and-live-tokens-all-exposed">TechRadar, Nov 6</a></p></li>
+    <li class="warn"><h3>Blue Origin's New Glenn will not fly again until January</h3><p>CEO Dave Limp told staff on November 4 that the rocket's return to flight slips to January 2027, breaking a pledge to fly again this year. The vehicle exploded during an engine test on May 28, heavily damaging Blue Origin's only New Glenn pad at Cape Canaveral. The next flight is meant to carry 48 Amazon Leo internet satellites. Separately, NASA declared Starfish Space's SSPICY debris-inspection satellite unrecoverable after a fault-protection routine left its radio switched off.</p><p class="src"><a href="https://thenextweb.com/news/blue-origin-new-glenn-return-to-flight-delayed-january">TNW, Nov 5</a> · <a href="https://nasa.gov/blogs/smallsatellites/2026/11/03/nasa-funded-sspicy-mission-experiences-communications-loss">NASA, Nov 3</a></p></li>
+    <li class="warn"><h3>Graphics cards and speaker batteries: prices up, products recalled</h3><p>Board partners raised Nvidia RTX 50-series prices again in November, with the RTX 5080 up $380 to $450 and the RTX 5070 Ti up $150, blaming the AI-driven memory shortage. The Consumer Product Safety Commission (CPSC) recalled about 635,000 lithium-ion battery packs for Bose S1 Pro speakers after seven reports of melting or fire; the speaker still works on wall power while you wait for a free replacement.</p><p class="src"><a href="https://wccftech.com/nvidia-rtx-50-gpus-see-a-massive-price-increase-in-november/">Wccftech, Nov 3</a> · <a href="https://www.cpsc.gov/Recalls/2027/Bose-Recalls-Lithium-Ion-Battery-Packs-for-S1-Pro-and-S1-Pro-Bluetooth-Speaker-Systems-Due-to-Risk-of-Injury-from-Fire-and-Overheating-Hazards">CPSC, Nov 5</a></p></li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s4">
+  <div class="sec-head"><span class="num">04</span><h2 id="s4">Geopolitics and Defense Tech</h2></div>
+  <ul class="items">
+    <li class="hot"><h3>China extended its rare-earth pause and the trade truce to January 10</h3><p>On Monday, November 9, one day before the deadline, China's Ministry of Commerce extended its suspension of new rare-earth export controls by two months, to January 10, 2027. The same announcement keeps a 24 percent tariff on U.S. goods suspended (a 10 percent tariff stays), along with measures against 27 U.S. firms and port fees on U.S.-linked ships. Rare earths go into the magnets in drone motors, electric vehicles and guided weapons. President Trump is expected in Shenzhen later this month for the APEC (Asia-Pacific Economic Cooperation) summit.</p><p class="src"><a href="https://theprint.in/world/china-extends-suspension-of-new-rare-earth-controls-until-january/3094091/">Reuters via ThePrint, Nov 9</a> · <a href="https://www.timeslive.co.za/news/world/2026-11-09-china-extends-us-trade-truce-by-two-months/">Reuters via TimesLIVE, Nov 9</a></p></li>
+    <li class="hot"><h3>Companies approved to handle Nvidia's China chips include an empty office</h3><p>The Commerce Department cleared about two dozen Chinese firms to buy or handle H200 chips. One, "New Matrix," has a vacant registered address outside Beijing and is mostly owned by Wise Road Capital, a fund the U.S. blacklisted in 2024. Another is believed to front for Inspur, blacklisted in 2023. Roughly 600,000 H200s are reportedly waiting in Hong Kong for Beijing's import approval. Incoming Democratic committee chairs are expected to probe the sales in January.</p><p class="src"><a href="https://wccftech.com/us-approved-nvidia-h200-sales-chinese-firms-empty-offices-military-ties/">Wccftech, Nov 8</a> · <a href="https://en.sedaily.com/international/2026/11/08/nvidias-huang-faces-scrutiny-over-h200-china-sales-alleged">Seoul Economic Daily, Nov 8</a> · <a href="https://tokenpost.com/news/regulation/50716">TokenPost, Nov 7</a></p></li>
+    <li class="hot"><h3>The $1.5 trillion defense request is expected to shrink to about $1 trillion</h3><p>After Democrats won both chambers on November 3, people familiar with the talks told Bloomberg that Congress is likely to approve roughly $1 trillion for fiscal year 2027, not the $1.5 trillion requested. The government is running on a stopgap that expires December 11. Lockheed Martin fell 6.9 percent and Northrop Grumman 4.5 percent on November 4, even as the broader market rose. Lockheed's order backlog is a record $292 billion, so the pipeline is full; the question is the growth rate.</p><p class="src"><a href="https://finance.yahoo.com/economy/policy/articles/trump-1-5-trillion-defense-144026439.html">Bloomberg via Yahoo Finance, Nov 8</a> · <a href="https://247wallst.com/investing/2026/11/05/defense-stocks-sank-as-democrats-took-congress-and-the-1-5-trillion-budget-looks-doomed">24/7 Wall St, Nov 5</a></p></li>
+    <li class="hot"><h3>The Pentagon is lending $450 million to a California FPV drone maker</h3><p>The Office of Strategic Capital signed a conditional loan to Neros on November 2, paired with $165 million in equity, to build motors, flight electronics, sensors and batteries in-house at its Torrance factory. The Army wants 50,000 domestic brushless motors by the end of fiscal 2027, and the Drone Dominance Program aims to buy more than 200,000 small drones by 2027. The government takes a small non-voting stake.</p><p class="src"><a href="https://dronexl.co/2026/11/04/neros-pentagon-small-stake-no-vote-who-buys-drones">DroneXL, Nov 4</a></p></li>
+    <li class="hot"><h3>Jet-powered Shaheds are getting through at twice the rate of propeller ones</h3><p>Ukraine's General Staff says Russia launched 6,473 Shahed-type drones in October; 75 percent were downed, but jet-powered versions were intercepted only 66 percent of the time versus 89 percent for propeller models. Overnight November 8 to 9, Russia launched 317 drones including 105 jet-powered Shaheds; 271 were neutralized. Ukrainian long-range drones hit a refinery near St. Petersburg, 1,200 kilometers from the border, a day before U.S.-brokered talks in Abu Dhabi on November 10.</p><p class="src"><a href="https://www.ukrinform.net/rubric-ato/4180726-ukraine-intercepts-66-of-russias-jetpowered-shahed-drones-in-october-general-staff.html">Ukrinform, Nov 3</a> · <a href="https://www.ukrinform.net/rubric-ato/4182779-air-defense-neutralizes-271-of-317-russian-drones-targeting-ukraine-overnight.html">Ukrinform, Nov 9</a> · <a href="https://www.news4jax.com/news/world/2026/11/09/a-day-before-us-brokered-talks-russia-and-ukraine-batter-each-other-with-long-range-strikes/">AP via News4Jax, Nov 9</a></p></li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s5">
+  <div class="sec-head"><span class="num">05</span><h2 id="s5">Markets and Crypto</h2></div>
+  <p class="label">Numbers that moved this week. Information only, not investment advice.</p>
+  <ul class="numbers">
+    <li><div class="big down">−12.15%<small>Chip index, week</small></div><div><p>The Philadelphia Semiconductor Index fell from 10,688.80 to 9,390.25 in the week ending November 6, its worst since April 2025. The S&amp;P 500 lost 2.68 percent to 7,376.86, its fourth straight weekly drop, after Thursday's 4.36 percent plunge tied to the election results and data-center backlash. A hot October jobs report (165,000 jobs added versus 65,000 expected) pushed the odds of a December rate hike to 78 percent.</p><p class="src"><a href="https://finance.yahoo.com/markets/stocks/articles/p-500-just-had-worst-173339298.html">24/7 Wall St via Yahoo Finance, Nov 7</a></p></div></li>
+    <li><div class="big down">−8.76%<small>Nvidia, week</small></div><div><p>Nvidia closed at $186.71 on November 6, its fifth straight losing week and about 22 percent below its October 6 record. AMD fell 11.74 percent for the week despite a record quarter, and Palantir dropped eight sessions in a row (about 22 percent) before a Friday bounce. Nvidia reports earnings November 17 with guidance of about $108 billion in quarterly revenue.</p><p class="src"><a href="https://247wallst.com/investing/2026/11/07/nvidia-is-worth-1-3-trillion-less-after-its-5th-straight-losing-week/">24/7 Wall St, Nov 7</a> · <a href="https://www.ad-hoc-news.de/boerse/news/corporate-news/amd-stock-falls-11-74-prozent-in-a-week-as-record-quarter-shifts-ai-focus/70473569">ad-hoc-news, Nov 7</a> · <a href="https://www.fool.com/investing/2026/11/07/palantir-stock-just-fell-8-days-in-a-row-history-says-what-followed-its-only-2-longer-losing-streaks/">The Motley Fool, Nov 7</a></p></div></li>
+    <li><div class="big down">$73,761<small>Bitcoin low, Nov 8</small></div><div><p>Bitcoin touched its lowest level since August late Sunday before recovering above $75,000; Ether briefly fell under $2,100. More than $1 billion of leveraged positions were liquidated in 24 hours. U.S. spot Bitcoin and Ether exchange-traded funds (ETFs) lost $1.65 billion for the week, $1.21 billion of it from BlackRock's IBIT alone.</p><p class="src"><a href="https://www.coindesk.com/markets/2026/11/09/bitcoin-drops-then-pops-as-nvidia-cheating-scandal-and-failed-iran-talks-trigger-volatility">CoinDesk, Nov 8</a> · <a href="https://crypto.news/bitcoin-ether-etfs-weekly-outflows-blackrock-november/">crypto.news, Nov 7</a></p></div></li>
+    <li><div class="big">$6.34B<small>Binance theft, final tally</small></div><div><p>Binance's post-mortem traces the October 29 theft to a tampered Homebrew install in June, a fake job interview in September, and lateral movement through an internal AI tool in October. About $2.85 billion was frozen by other firms; Binance says it replaced 98 percent of affected assets from its own funds. Its chief financial officer left on November 7. The FBI attributes the attack to North Korea's TraderTraitor group.</p><p class="src"><a href="https://theblock.co/news/business/2026-11-03-binance-hack-incident-report-north-korea-fake-job-interview-ai-tool-432406">The Block, Nov 3</a> · <a href="https://gizmodo.com/binances-cfo-is-out-a-week-after-6-3-billion-hack-2000836686">Gizmodo, Nov 7</a></p></div></li>
+    <li><div class="big up">+10–15%<small>DRAM contract prices, Q4 est.</small></div><div><p>TrendForce expects conventional dynamic random-access memory (DRAM) contract prices to rise another 10 to 15 percent this quarter and NAND flash 15 to 20 percent, with a Samsung executive citing a 20 percent jump in the third quarter. The spot market has stalled: DDR4 16-gigabit chips sat at $82.72 and DDR5 was flat at $61.50 on November 2. Memory is why consoles, graphics cards and laptops are getting pricier.</p><p class="src"><a href="https://capitaltimes.asia/tech/semiconductors/dram-contract-prices-rise-spot-market-stalls-trendforce/">Capital Times Asia, Nov 3</a> · <a href="https://www.trendforce.com/news/2026/11/04/insights-memory-spot-price-update-mainstream-ddr4-prices-dip-0-09-as-spot-premium-keeps-buyers-on-sidelines/">TrendForce, Nov 4</a></p></div></li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s6">
+  <div class="sec-head"><span class="num">06</span><h2 id="s6">Forecast</h2></div>
+  <p class="label">Three new calls for the next 90 days (resolve by February 7, 2027). Each one can be checked and marked right or wrong.</p>
+  <ul class="calls">
+    <li><p>Nvidia's board publicly reports the outcome of its independent investigation on or before February 7, 2027, and Jensen Huang is still CEO on that date.</p><span class="conf">70%</span></li>
+    <li><p>Anthropic prices its initial public offering and its shares begin trading on Nasdaq under the ticker ANT on or before December 31, 2026. (Reports say the roadshow could start this week with a debut before Thanksgiving.)</p><span class="conf">60%</span></li>
+    <li><p>SpaceX attempts a Starship upper-stage catch at the Starbase tower (the ship actually flies back to the tower, whether or not the catch succeeds) on or before December 31, 2026.</p><span class="conf">40%</span></li>
+  </ul>
+  <p class="label">Grading Issue 01 (published November 8)</p>
+  <ul class="calls grading">
+    <li><p>Starship Flight 15 launches on or before November 30, 2026 (65%).</p><span class="conf pending">Pending</span><p class="grade">Still targeting November 13 with backup dates through November 19; FAA license not yet issued as of November 9.</p></li>
+    <li><p>FAA Part 108 rule published in the Federal Register by February 7, 2027 (45%).</p><span class="conf pending">Pending</span><p class="grade">Still in White House review, where it has sat since July 10. Federal law requires it by December 7.</p></li>
+    <li><p>At least one state other than Texas announces a statewide pause or mandatory review on data-center permits by February 7, 2027 (55%).</p><span class="conf pending">Pending</span><p class="grade">Trending toward yes: new governors in Ohio, Georgia, Michigan and New Mexico campaigned on pauses, but none has issued one yet. They take office in January.</p></li>
+  </ul>
+  <p class="src"><a href="https://www.aero-news.net/index.cfm?do=main.textpost&amp;id=425F005F-3EC1-4669-9672-7B88D7EBD966">Aero-News Network, Nov 9</a> · <a href="https://dronexl.co/2026/11/09/airdata-pilot-institute-training-records-part-108/">DroneXL, Nov 9</a> · <a href="https://www.spokesman.com/stories/2026/nov/08/some-40-of-us-planned-data-center-capacity-is-in-s/">Bloomberg via Spokesman-Review, Nov 8</a> · <a href="https://financefeeds.com/anthropic-ipo-roadshow-looms-with-no-price-range/">FinanceFeeds, Nov 5</a></p>
+</section>
+
+<section class="card mission" aria-labelledby="s7">
+  <div class="sec-head"><span class="num">07</span><h2 id="s7">Your Mission</h2></div>
+  <h3>This week's path: UAS / FPV Drones</h3>
+  <p>Axon bet $1.2 billion on Skydio, the Pentagon lent $450 million to an FPV (first-person-view) maker to build motors at home, Part 108 is weeks from its legal deadline, and the war in Ukraine showed what happens when drones switch from propellers to jets. Understanding how a brushless motor, a flight controller and a video link fit together is the most employable skill this week's news points at.</p>
+  <a class="cta" href="https://missionstack.madethis.app/academy">Open the Academy</a>
+  <p class="src"><a href="https://dronelife.com/2026/11/06/axon-skydio-investment-exclusive-drone-distribution/">DroneLife, Nov 6</a> · <a href="https://dronexl.co/2026/11/04/neros-pentagon-small-stake-no-vote-who-buys-drones">DroneXL, Nov 4</a> · <a href="https://www.ukrainesarmsmonitor.com/p/ukraine-drone-brief-bd7">Ukraine's Arms Monitor, Nov 7</a></p>
+</section>
+
+<section class="card sources" aria-labelledby="s8">
+  <div class="sec-head"><span class="num">SRC</span><h2 id="s8">Sources</h2></div>
+  <p class="label">Every page opened for this issue, in the order the sections use them.</p>
+  <ol>
+    <li><a href="https://nvidianews.nvidia.com/news/statement-from-nvidia-board-of-directors">Nvidia Newsroom: Statement from the Nvidia Board of Directors (Nov 8)</a></li>
+    <li><a href="https://www.cbsnews.com/news/nvidia-jensen-huang-investigation-china-intelligence/">CBS News: Nvidia opens investigation into Jensen Huang (Nov 8)</a></li>
+    <li><a href="https://techcrunch.com/2026/11/08/nvidia-says-its-investigating-ceo-jensen-huangs-relationship-with-possible-chinese-spy/">TechCrunch: Nvidia investigating Huang (Nov 8)</a></li>
+    <li><a href="https://wccftech.com/us-approved-nvidia-h200-sales-chinese-firms-empty-offices-military-ties/">Wccftech: US approved H200 sales to Chinese firms with empty offices (Nov 8)</a></li>
+    <li><a href="https://en.sedaily.com/international/2026/11/08/nvidias-huang-faces-scrutiny-over-h200-china-sales-alleged">Seoul Economic Daily: Huang faces scrutiny over H200 China sales (Nov 8)</a></li>
+    <li><a href="https://tokenpost.com/news/regulation/50716">TokenPost: 600,000 H200 chips waiting in Hong Kong (Nov 7)</a></li>
+    <li><a href="https://www.wftv.com/news/local/spacex-plans-first-ever-catch-starship-spacecraft-during-next-launch/EATBSQ7XXRACFOQHNXIVI66UHQ/">WFTV: SpaceX plans first-ever catch of Starship (Nov 8)</a></li>
+    <li><a href="https://www.teslaoracle.com/2026/11/07/flight-15-starship-double-catch-to-happen-net-friday-the-13th-confirmed/">Tesla Oracle: Flight 15 double catch NET Nov 13 (Nov 7)</a></li>
+    <li><a href="https://www.aero-news.net/index.cfm?do=main.textpost&amp;id=425F005F-3EC1-4669-9672-7B88D7EBD966">Aero-News Network: Starship Flight 15 status (Nov 9)</a></li>
+    <li><a href="https://dronelife.com/2026/11/06/axon-skydio-investment-exclusive-drone-distribution/">DroneLife: Axon invests $1.2B in Skydio (Nov 6)</a></li>
+    <li><a href="https://cloud.google.com/blog/topics/threat-intelligence/shutting-the-door-on-the-xcpe-botnet/">Google Cloud Blog: Shutting the door on the XCPE botnet (Nov 2)</a></li>
+    <li><a href="https://cyberscoop.com/openai-gpt-6-cyber-security-model/">CyberScoop: OpenAI GPT-6 Cyber (Nov 5)</a></li>
+    <li><a href="https://www.esecurityplanet.com/news/news-openai-gpt-6-cyber-security-benchmarks/">eSecurity Planet: GPT-6 Cyber benchmarks (Nov 6)</a></li>
+    <li><a href="https://www.macrumors.com/2026/11/06/oled-macbook-pro-hands-on/">MacRumors: OLED MacBook Pro hands-on (Nov 6)</a></li>
+    <li><a href="https://www.infosecurity-magazine.com/news/cisa-protect-refrigeration-networks/">Infosecurity Magazine: CISA warns on refrigeration networks (Nov 6)</a></li>
+    <li><a href="https://www.helpnetsecurity.com/2026/11/09/exploited-sonicwall-ssl-vpn-flaw-lets-attackers-bypass-saml-enforced-mfa-cve-2026-19868/">Help Net Security: SonicWall SSL-VPN flaw CVE-2026-19868 (Nov 9)</a></li>
+    <li><a href="https://tech-insider.org/ivanti-connect-secure-cve-2026-111357-118527-kev-deadline-nov-13-2026/">Tech Insider: Ivanti Connect Secure KEV deadline (Nov 3)</a></li>
+    <li><a href="https://www.techradar.com/pro/security/chainalysis-admits-all-users-affected-in-major-data-breach-names-usernames-password-hashes-and-live-tokens-all-exposed">TechRadar: Chainalysis breach (Nov 6)</a></li>
+    <li><a href="https://thenextweb.com/news/blue-origin-new-glenn-return-to-flight-delayed-january">TNW: New Glenn return to flight delayed (Nov 5)</a></li>
+    <li><a href="https://nasa.gov/blogs/smallsatellites/2026/11/03/nasa-funded-sspicy-mission-experiences-communications-loss">NASA: SSPICY communications loss (Nov 3)</a></li>
+    <li><a href="https://wccftech.com/nvidia-rtx-50-gpus-see-a-massive-price-increase-in-november/">Wccftech: RTX 50 price increase (Nov 3)</a></li>
+    <li><a href="https://www.cpsc.gov/Recalls/2027/Bose-Recalls-Lithium-Ion-Battery-Packs-for-S1-Pro-and-S1-Pro-Bluetooth-Speaker-Systems-Due-to-Risk-of-Injury-from-Fire-and-Overheating-Hazards">CPSC: Bose battery recall (Nov 5)</a></li>
+    <li><a href="https://theprint.in/world/china-extends-suspension-of-new-rare-earth-controls-until-january/3094091/">Reuters via ThePrint: China extends rare-earth suspension (Nov 9)</a></li>
+    <li><a href="https://www.timeslive.co.za/news/world/2026-11-09-china-extends-us-trade-truce-by-two-months/">Reuters via TimesLIVE: China extends trade truce (Nov 9)</a></li>
+    <li><a href="https://finance.yahoo.com/economy/policy/articles/trump-1-5-trillion-defense-144026439.html">Bloomberg via Yahoo Finance: Defense request faces cuts (Nov 8)</a></li>
+    <li><a href="https://247wallst.com/investing/2026/11/05/defense-stocks-sank-as-democrats-took-congress-and-the-1-5-trillion-budget-looks-doomed">24/7 Wall St: Defense stocks sank (Nov 5)</a></li>
+    <li><a href="https://dronexl.co/2026/11/04/neros-pentagon-small-stake-no-vote-who-buys-drones">DroneXL: Neros loan and stake (Nov 4)</a></li>
+    <li><a href="https://dronexl.co/2026/11/09/airdata-pilot-institute-training-records-part-108/">DroneXL: Part 108 training records (Nov 9)</a></li>
+    <li><a href="https://www.ukrinform.net/rubric-ato/4180726-ukraine-intercepts-66-of-russias-jetpowered-shahed-drones-in-october-general-staff.html">Ukrinform: Jet-powered Shahed intercept rate (Nov 3)</a></li>
+    <li><a href="https://www.ukrinform.net/rubric-ato/4182779-air-defense-neutralizes-271-of-317-russian-drones-targeting-ukraine-overnight.html">Ukrinform: 271 of 317 drones neutralized (Nov 9)</a></li>
+    <li><a href="https://www.news4jax.com/news/world/2026/11/09/a-day-before-us-brokered-talks-russia-and-ukraine-batter-each-other-with-long-range-strikes/">AP via News4Jax: Long-range strikes before talks (Nov 9)</a></li>
+    <li><a href="https://www.ukrainesarmsmonitor.com/p/ukraine-drone-brief-bd7">Ukraine's Arms Monitor: Drone brief (Nov 7)</a></li>
+    <li><a href="https://finance.yahoo.com/markets/stocks/articles/p-500-just-had-worst-173339298.html">24/7 Wall St via Yahoo Finance: S&amp;P 500 worst week since April 2025 (Nov 7)</a></li>
+    <li><a href="https://247wallst.com/investing/2026/11/07/nvidia-is-worth-1-3-trillion-less-after-its-5th-straight-losing-week/">24/7 Wall St: Nvidia fifth losing week (Nov 7)</a></li>
+    <li><a href="https://www.ad-hoc-news.de/boerse/news/corporate-news/amd-stock-falls-11-74-prozent-in-a-week-as-record-quarter-shifts-ai-focus/70473569">ad-hoc-news: AMD falls 11.74% (Nov 7)</a></li>
+    <li><a href="https://www.fool.com/investing/2026/11/07/palantir-stock-just-fell-8-days-in-a-row-history-says-what-followed-its-only-2-longer-losing-streaks/">The Motley Fool: Palantir eight-day streak (Nov 7)</a></li>
+    <li><a href="https://www.coindesk.com/markets/2026/11/09/bitcoin-drops-then-pops-as-nvidia-cheating-scandal-and-failed-iran-talks-trigger-volatility">CoinDesk: Bitcoin drops then pops (Nov 8)</a></li>
+    <li><a href="https://crypto.news/bitcoin-ether-etfs-weekly-outflows-blackrock-november/">crypto.news: ETF weekly outflows (Nov 7)</a></li>
+    <li><a href="https://theblock.co/news/business/2026-11-03-binance-hack-incident-report-north-korea-fake-job-interview-ai-tool-432406">The Block: Binance incident report (Nov 3)</a></li>
+    <li><a href="https://gizmodo.com/binances-cfo-is-out-a-week-after-6-3-billion-hack-2000836686">Gizmodo: Binance CFO out (Nov 7)</a></li>
+    <li><a href="https://capitaltimes.asia/tech/semiconductors/dram-contract-prices-rise-spot-market-stalls-trendforce/">Capital Times Asia: DRAM contract prices (Nov 3)</a></li>
+    <li><a href="https://www.trendforce.com/news/2026/11/04/insights-memory-spot-price-update-mainstream-ddr4-prices-dip-0-09-as-spot-premium-keeps-buyers-on-sidelines/">TrendForce: Memory spot price update (Nov 4)</a></li>
+    <li><a href="https://financefeeds.com/anthropic-ipo-roadshow-looms-with-no-price-range/">FinanceFeeds: Anthropic IPO roadshow (Nov 5)</a></li>
+    <li><a href="https://www.spokesman.com/stories/2026/nov/08/some-40-of-us-planned-data-center-capacity-is-in-s/">Bloomberg via Spokesman-Review: Data-center capacity in pause states (Nov 8)</a></li>
+  </ol>
+</section>
+
+<footer class="colophon">
+  <p>MissionStack Tech Snapshot is published by MissionStack Academy for learners 13 and up and for adults changing careers. Nothing here is investment, legal or safety advice. Figures are as reported by the linked sources on the dates shown.</p>
+  <p class="mono">missionstack.madethis.app · missionstack1@gmail.com · Issue 02 · 2026-11-09</p>
+</footer>
+</div>
+</body>
+</html>
