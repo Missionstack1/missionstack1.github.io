@@ -4,6 +4,21 @@
   "schedule": "Mondays 05:40 America/Chicago",
   "issues": [
     {
+      "issue": 3,
+      "date": "2026-11-16",
+      "title": "Nvidia's founder resigns; SpaceX catches a Starship; ULA loses a Vulcan and 40 Amazon satellites",
+      "summary": "Window Nov 9–16, 2026. Huang out at Nvidia, Starship Flight 15 ship catch, Vulcan failure, 1,093-bug Patch Tuesday with an Outlook zero-day, AWS us-east-1 outage, Trump–Xi chip talks, Bitcoin low $62,112, PC memory prices up 13–18%.",
+      "topics": [
+        "AI & chips",
+        "Space",
+        "Cyber",
+        "Drones",
+        "Geopolitics",
+        "Markets & crypto"
+      ],
+      "file": "2026-11-16.html"
+    },
+    {
       "issue": 2,
       "date": "2026-11-09",
       "title": "Nvidia's board investigates its CEO; Starship aims for a double catch; rare-earth truce extended",

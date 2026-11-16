@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MissionStack Tech Snapshot — Issue 03 — November 16, 2026</title>
+<meta name="description" content="The week in the whole stack, November 9 to 16, 2026: Nvidia founder resigns, SpaceX catches a Starship upper stage, ULA Vulcan fails with 40 Amazon satellites, 1,093-bug Patch Tuesday, AWS outage, Bitcoin at a four-month low.">
+<link rel="icon" href="../logo.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{--bg:#0b0f14;--card:#101820;--border:#273744;--accent:#00d1ff;--accent-dim:rgba(0,209,255,.12);--fg:#e6edf3;--muted:#9fb0c0;--warn:#ffb454;--bad:#ff6b6b;--good:#3ddc97;--display:"Rajdhani","Inter",system-ui,sans-serif;--body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;--mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(0,209,255,.35)}
+a:hover,a:focus-visible{border-bottom-color:var(--accent);outline:none}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:760px;margin:0 auto;padding:32px max(16px,env(safe-area-inset-left,0px)) 64px max(16px,env(safe-area-inset-right,0px));display:grid;gap:20px}
+.topnav{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.topnav img{width:28px;height:28px}
+.topnav a{border:0;color:var(--muted)}
+.topnav a:hover{color:var(--accent)}
+header.masthead{display:grid;gap:10px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);display:flex;flex-wrap:wrap;gap:8px 18px}
+.kicker span::before{content:"// ";color:var(--muted)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,7vw,52px);line-height:1.02;margin:0;letter-spacing:.01em;text-transform:uppercase;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+.dek{color:var(--muted);margin:0;max-width:62ch}
+.dek strong{color:var(--fg);font-weight:500}
+section.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 22px 24px;display:grid;gap:14px;min-width:0}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.num{font-family:var(--mono);font-size:13px;letter-spacing:.12em;color:var(--accent);background:var(--accent-dim);padding:3px 8px;border-radius:4px;flex:none}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0;letter-spacing:.04em;text-transform:uppercase}
+h3{font-family:var(--display);font-weight:600;font-size:19px;line-height:1.2;margin:0 0 4px;letter-spacing:.02em}
+p{margin:0;max-width:68ch}
+p+p{margin-top:10px}
+.lede p{font-size:17px}
+.label{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.items{display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.items li{display:grid;gap:4px;padding-left:14px;border-left:2px solid var(--border);min-width:0}
+.items li.hot{border-left-color:var(--accent)}.items li.bad{border-left-color:var(--bad)}.items li.warn{border-left-color:var(--warn)}.items li.good{border-left-color:var(--good)}
+.src{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.src a{color:var(--accent)}
+.src::before{content:"src ";color:var(--border)}
+.numbers{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.numbers li{display:grid;grid-template-columns:minmax(92px,130px) 1fr;gap:4px 16px;align-items:start;padding:12px 0;border-top:1px solid var(--border);min-width:0}
+.numbers li:first-child{border-top:0;padding-top:0}
+.big{font-family:var(--display);font-weight:700;font-size:30px;line-height:1;font-variant-numeric:tabular-nums;color:var(--fg)}
+.big.down{color:var(--bad)}.big.up{color:var(--good)}
+.big small{display:block;font-family:var(--mono);font-weight:400;font-size:11px;letter-spacing:.08em;color:var(--muted);margin-top:6px;text-transform:uppercase}
+.calls{display:grid;gap:12px;margin:0;padding:0;list-style:none}
+.calls li{display:grid;grid-template-columns:1fr auto;gap:8px 16px;align-items:start;padding:12px 14px;border:1px solid var(--border);border-radius:8px;min-width:0}
+.conf{font-family:var(--mono);font-size:13px;color:var(--accent);background:var(--accent-dim);border-radius:4px;padding:4px 8px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.conf.pending{color:var(--warn);background:rgba(255,180,84,.12)}
+.grade{grid-column:1/-1;color:var(--muted);font-size:14px}
+.mission{border-color:var(--accent);background:linear-gradient(180deg,rgba(0,209,255,.08),var(--card) 60%)}
+.cta{display:inline-block;font-family:var(--display);font-weight:700;font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--bg);background:var(--accent);padding:10px 18px;border-radius:6px;border:0;justify-self:start}
+.cta:hover{background:#4fe0ff}
+.sources ol{margin:0;padding-left:22px;display:grid;gap:6px;font-size:13.5px;color:var(--muted)}
+.sources li{min-width:0;overflow-wrap:anywhere}
+footer.colophon{color:var(--muted);font-size:13px;border-top:1px solid var(--border);padding-top:16px;display:grid;gap:6px}
+footer .mono{font-family:var(--mono);font-size:12px}
+@media (max-width:480px){section.card{padding:18px 16px 20px}.numbers li{grid-template-columns:1fr}.calls li{grid-template-columns:1fr}.conf{justify-self:start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="topnav"><img src="../logo.svg" alt=""><a href="../">MissionStack Academy</a><span>/</span><a href="./">Tech Snapshot archive</a></nav>
+<header class="masthead">
+  <div class="kicker"><span>MissionStack Academy</span><span>Issue 03</span><span>Monday, November 16, 2026</span></div>
+  <h1>MissionStack <em>Tech Snapshot</em></h1>
+  <p class="dek">The week in the whole stack, from game consoles to satellites. <strong>Window covered: November 9 to 16, 2026.</strong> Nvidia lost its founder, SpaceX caught a spaceship, ULA lost a rocket, and Microsoft patched more than a thousand bugs in one day. Plain language, every acronym spelled out once, every item linked to the page we actually read.</p>
+</header>
+
+<section class="card lede" aria-labelledby="s1">
+  <div class="sec-head"><span class="num">01</span><h2 id="s1">The Big One</h2></div>
+  <h3>Nvidia's founder is gone, five days before earnings and the Trump–Xi summit</h3>
+  <p>On Thursday, November 12, Jensen Huang resigned as Nvidia's president, chief executive officer (CEO) and board member, effective immediately, ending a 33-year run. Chief financial officer (CFO) Colette Kress is interim CEO while keeping the CFO job; Harvey Jones became the company's first board chair. The exit came four days after the board opened an independent investigation into reports that Chinese intelligence had targeted Huang, and one day after The New York Times reported a relationship with a senior executive who reported to him. Nvidia's filing gives no reason, and sources told NBC the investigation continues without him.</p>
+  <p><strong>Why it matters.</strong> Nvidia makes the chips behind nearly every large artificial intelligence (AI) model, the Switch 2's processor, and Anthropic's upcoming listing. The stock fell 12.75 percent on the week, its sixth straight loss, while the broader chip index rose 8 percent, so investors are punishing Nvidia specifically, not AI.</p>
+  <p><strong>What to watch.</strong> Earnings Tuesday, November 17; the Trump–Xi meeting in Shenzhen Thursday, where H200 chip sales to China are on the table; and whether the board names a permanent CEO or keeps searching into the new Congress.</p>
+  <p class="src"><a href="https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000082/nvidiaannouncesceotransiti.htm">Nvidia 8-K filing, Nov 12</a> · <a href="https://www.aljazeera.com/news/2026/11/12/why-did-nvidia-ceo-jensen-huang-resign-and-who-is-colette-kress">Al Jazeera, Nov 12</a> · <a href="https://theglassdesk.substack.com/p/weekly-market-review-nov-13-2026">The Glass Desk weekly review, Nov 13</a></p>
+</section>
+
+<section class="card" aria-labelledby="s2">
+  <div class="sec-head"><span class="num">02</span><h2 id="s2">Advancements</h2></div>
+  <ul class="items">
+    <li class="good">
+      <h3>SpaceX caught a Starship upper stage out of the sky</h3>
+      <p>Flight 15 launched Friday, November 13, put 26 Starlink V3 satellites into orbit within 77 minutes, flew about 22.5 hours, then Ship 42 came back to Starbase and settled into the launch tower's arms at about 4:20 p.m. Eastern on Saturday. It is the first recovery of an orbital upper stage, ever. The booster did not make it: Super Heavy aborted its own catch after a low-fuel alarm cut the boostback burn short, and it came down in the Gulf of Mexico.</p>
+      <p class="src"><a href="https://www.space.com/news/live/spacex-starship-flight-15-live-updates-nov-14-2026-starship-first-double-landing-attempt">Space.com live blog, Nov 14</a> · <a href="https://www.space.com/space-exploration/launches-spacecraft/spacex-says-starship-flight-15-booster-aborted-chopsticks-landing-catch-after-launch-due-to-guidance-issue-video">Space.com on the booster abort, Nov 14</a> · <a href="https://aviationweek.com/space/operations-safety/starship-flight-15-ends-first-ship-tower-catch">Aviation Week, Nov 14</a></p>
+    </li>
+    <li class="good">
+      <h3>Anthropic set its IPO price and the book filled on day one</h3>
+      <p>The initial public offering (IPO) is 825 million shares at $70 to $78, up to $64.4 billion raised, valuing the company at up to $1.4 trillion fully diluted. Seven partners including Google, Nvidia, Microsoft and TSMC will buy $26 billion more at the IPO price. Orders were reported at multiple times the shares available. Pricing is set for Wednesday, November 18, with trading on Nasdaq as ANT on Thursday. Annualized revenue was about $81 billion at the end of October.</p>
+      <p class="src"><a href="https://fortune.com/2026/11/10/anthropic-ipo-price-range-ai-stock-sell-off/">Fortune, Nov 10</a> · <a href="https://stockanalysis.com/news/anthropic-ipo-multiple-times-oversubscribed/">StockAnalysis on the Bloomberg report, Nov 11</a></p>
+    </li>
+    <li class="good">
+      <h3>AMD shipped its Zen 6 server chips with 256 cores per socket</h3>
+      <p>The 6th-generation EPYC "Venice" line went on general availability November 10. The top EPYC 9996 packs 256 cores; AMD claims up to 2.2 times the performance of Intel's Xeon 6980P and 3.7 times Nvidia's Vera CPU, by its own tests. Meta is the lead customer; Azure and Oracle cloud instances follow. AMD also stopped quoting thermal design power (TDP) and now lists "default CPU power" instead, a sign of how much the power bill drives data-center buying.</p>
+      <p class="src"><a href="https://ir.amd.com/news-events/press-releases/detail/1305/amd-showcases-6th-gen-amd-epyc-processors-to-lead-next-era-of-ai-and-enterprise-computing">AMD press release, Nov 10</a></p>
+    </li>
+    <li class="good">
+      <h3>Police seized 235 servers, and the U.S. clawed back $1.2 billion from North Korea</h3>
+      <p>Operation Endgame took down 235 servers and 257 domains and recovered about 6.4 million stolen credentials tied to more than 40,000 victims, per Germany's federal police. Separately, U.S. authorities seized more than $1.2 billion in cryptocurrency linked to North Korea's TraderTraitor group and the $6.3 billion Binance theft. The Federal Bureau of Investigation (FBI) also warned on November 13 that criminals are abusing ARTEX, an autonomous penetration-testing tool, reaching privileged access in under three hours in some intrusions.</p>
+      <p class="src"><a href="https://blog.senthorus.ch/posts/weekly_reviews/16_11_2026">Senthorus week in review, Nov 16</a></p>
+    </li>
+    <li class="good">
+      <h3>Consumer corner: a $249 indoor drone and a 5.2-million-copy Zelda</h3>
+      <p>Ring (owned by Amazon) announced the Drone Cam, a 165-gram indoor security drone that flies 5 to 8 minutes, records 2K video and maps your house, shipping January 27, 2027. It needs Wi-Fi to do almost anything. Nintendo said its Ocarina of Time remake sold 5.2 million copies in four days, the fastest-selling Nintendo-published Switch 2 game since launch, and announced a Black Friday Switch 2 bundle with Mario Kart World.</p>
+      <p class="src"><a href="https://dronexl.co/2026/11/13/axon-skydio-1-2-billion-ring-drone-cam-nampa-amazon-flight-data/">DroneXL roundup, Nov 13</a> · <a href="https://www.nintendolife.com/">Nintendo Life, Nov 11–15</a></p>
+    </li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s3">
+  <div class="sec-head"><span class="num">03</span><h2 id="s3">Shortfalls</h2></div>
+  <ul class="items">
+    <li class="bad">
+      <h3>ULA's Vulcan failed on its return to flight and took 40 Amazon satellites with it</h3>
+      <p>After two scrubs (a power cut at the nitrogen plant Friday, a ground-network fault Saturday), Vulcan lifted off Sunday, November 15, at 12:40 p.m. Eastern. Boosters separated cleanly, the Centaur upper stage lit, then United Launch Alliance (ULA) reported an anomaly about 10 minutes in. It is the first total mission failure in ULA's history. The 40 Amazon Leo satellites were the most Amazon had ever put on one rocket, and Vulcan was supposed to carry nearly 1,500 of the constellation's 3,000-plus. Vulcan had been grounded since February over a solid-booster problem; Northrop Grumman says those boosters performed fine this time.</p>
+      <p class="src"><a href="https://www.satellitetoday.com/launch/2026/11/15/ula-set-to-return-vulcan-to-flight-in-first-amazon-leo-launch/">Via Satellite, Nov 15</a> · <a href="https://www.cfpublic.org/space/2026-11-13/ulas-vulcan-rocket-returns-to-flight-after-9-month-grounding">Central Florida Public Media, Nov 13</a></p>
+    </li>
+    <li class="bad">
+      <h3>Patch Tuesday fixed 1,093 bugs, including an Outlook zero-day</h3>
+      <p>Microsoft's November release covered 287 products; 63 fixes are rated critical. The one already being exploited, CVE-2026-124194 in Outlook, leaks a user's NTLMv2 password hash if they open a crafted Office file, which lets an attacker impersonate them. Microsoft credits a researcher who used Anthropic's Claude to find it. Same day, Google patched an exploited Chrome bug (CVE-2026-125350). The Cybersecurity and Infrastructure Security Agency (CISA) also ordered agencies to fix "SSHole" (CVE-2026-123158), an OpenSSH authentication bypass on Linux that attackers have used since November 6 to read password hashes and plant backdoor keys.</p>
+      <p class="src"><a href="https://www.tenable.com/blog/microsoft-november-2026-patch-tuesday-addresses-1093-cves-cve-2026-124194">Tenable, Nov 10</a> · <a href="https://thehackernews.com/2026/11/cisa-warns-of-active-exploitation-of.html">The Hacker News on the CISA additions, Nov 9</a> · <a href="https://blog.senthorus.ch/posts/weekly_reviews/16_11_2026">Senthorus, Nov 16</a></p>
+    </li>
+    <li class="bad">
+      <h3>A breach wave: 37.6 million at Nitori, TSMC staff files, a university's Social Security numbers</h3>
+      <p>Japanese retailer Nitori says an attacker may have taken 37.62 million customer records. TSMC confirmed that current and former employee data, about 46,000 records per the seller, leaked through a cloud provider. A ransomware crew claims more than a million Social Security numbers from Vanderbilt University, unconfirmed. Hearing-aid maker Amplifon reported about 1.3 million people affected, including some medical data. The common thread is third parties: a cloud host, a newsletter vendor, a managed service provider.</p>
+      <p class="src"><a href="https://www.privacyguides.org/news/2026/11/13/data-breach-roundup-nov-6-12-2026/">Privacy Guides breach roundup, Nov 13</a> · <a href="https://www.dbdigest.com/2026/11/data-breaches-digest-week-46-2026.html">Data Breaches Digest, week 46</a></p>
+    </li>
+    <li class="warn">
+      <h3>AWS's biggest region went down for nearly four hours on Sunday</h3>
+      <p>Starting 3:05 a.m. Pacific on November 15, sign-ins to the Amazon Web Services (AWS) console failed in us-east-1 and 11 services were disrupted, including load balancing, CloudWatch monitoring and Step Functions. Full recovery came at 6:53 a.m. AWS has not published a root cause and says it was not an attack. If your app only lives in one availability zone of one region, this is the week to fix that.</p>
+      <p class="src"><a href="https://gbhackers.com/aws-confirms-major-us-east-1-outage/">GBHackers, Nov 15</a></p>
+    </li>
+    <li class="warn">
+      <h3>Next-gen desktop CPUs slip to 2027 while laptop memory keeps climbing</h3>
+      <p>Reports say AMD's Zen 6 desktop chips ("Olympic Ridge") and Intel's Nova Lake desktop line both move to 2027, with factories prioritizing data-center parts. TrendForce expects PC DRAM (dynamic random-access memory) contract prices to rise another 13 to 18 percent this quarter; notebook shipments fell 15.8 percent last quarter as buyers balked at the price tags, and memory makers are already planning to cut PC DRAM supply in 2027.</p>
+      <p class="src"><a href="https://www.3dtested.com/pc-components/cpus/amd-zen-6-and-intel-nova-lake-cpus-reportedly-arriving-late-delayed-to-ces-2027-next-gen-chips-rocked-by-industry-turmoil">3DTested</a> · <a href="https://www.trendforce.com/presscenter/news/20261111-13303.html">TrendForce, Nov 11</a></p>
+    </li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s4">
+  <div class="sec-head"><span class="num">04</span><h2 id="s4">Geopolitics and Defense Tech</h2></div>
+  <ul class="items">
+    <li class="hot">
+      <h3>Trump meets Xi in Shenzhen Thursday with chips and an AI hotline on the table</h3>
+      <p>The Asia-Pacific Economic Cooperation (APEC) CEO summit runs November 17 to 18; the leaders meet Thursday. Both sides plan talks on AI safety, including an emergency channel to report serious AI incidents that was agreed in principle in September but is not yet running. On chips, Trump approved H200 sales to China in December with a 25 percent cut for the U.S. Treasury, but Beijing's import approvals have been slow, and the Huang scandal has lawmakers in both parties pushing for tighter limits. Analysts quoted by Al Jazeera expect pressure next year, not this week. Elon Musk is the main CEO traveling with the president.</p>
+      <p class="src"><a href="https://www.marketscreener.com/news/chip-tensions-loom-over-trump-xi-summit-as-us-and-china-push-ai-safety-steps-ce785eded180f126">Reuters via MarketScreener, Nov 16</a> · <a href="https://www.aljazeera.com/news/2026/11/12/trump-heads-to-china-amid-nvidia-scandal-will-he-get-tougher-on-beijing">Al Jazeera, Nov 12</a></p>
+    </li>
+    <li class="hot">
+      <h3>Abu Dhabi talks: a prisoner swap agreed, no ceasefire, 600-plus drones in one night</h3>
+      <p>The first U.S.–Russia–Ukraine talks since February ran November 10 and 11, led by Steve Witkoff and Jared Kushner, with France, the U.K., Germany and Italy at the table. Result: a prisoner exchange in principle and "limited progress," per the Council on Foreign Relations; Moscow still demands Ukraine leave all of Donbas. While delegates talked, Russia said it downed 627 Ukrainian drones overnight across 22 regions, and Ukraine reported 163 incoming, 91 of them jet-powered, with 130 stopped. Ukrainian drones hit the Ust-Luga port near St. Petersburg. The Baltic states issued drone-incursion warnings.</p>
+      <p class="src"><a href="https://abcnews.com/International/ukraine-russia-exchange-hundreds-drones-day-2-abu/story?id=138038984">ABC News, Nov 11</a> · <a href="https://www.cfr.org/articles/what-the-abu-dhabi-talks-did-and-didnt-achieve">Council on Foreign Relations, Nov 13</a></p>
+    </li>
+    <li class="hot">
+      <h3>Congress is back, the $1.5 trillion defense request is dead, and Golden Dome's fund went with it</h3>
+      <p>The lame-duck session opened November 9 with the government on a stopgap through December 11. Incoming House Armed Services chair Adam Smith wants defense held near $1 trillion. About $350 billion of the Pentagon's request sat in a reconciliation bill analysts now give roughly a 10 percent chance, including $17 billion for Golden Dome missile defense and nearly $54 billion for autonomous warfare. Expect another stopgap into January, which blocks new program starts. Counter-drone and munitions money is the part both parties say they will keep.</p>
+      <p class="src"><a href="https://www.airandspaceforces.com/after-midterms-congress-reckon-defense-funding-ndaa/">Air &amp; Space Forces Magazine, Nov 9</a> · <a href="https://www.defenseone.com/policy/2026/11/blue-wave-presages-defense-spending-showdown/417111/">Defense One, Nov 6</a></p>
+    </li>
+    <li class="hot">
+      <h3>Part 108 is still stuck at the White House, three weeks from its legal deadline</h3>
+      <p>The Federal Aviation Administration (FAA) rule for routine beyond-visual-line-of-sight (BVLOS) drone flights has sat at the Office of Information and Regulatory Affairs since July 10; Congress required it by December 7. The only movement this month was a Privacy Act notice (published November 3, comments due December 3) describing the database the FAA will use to track Part 108 operators, which tells you the plumbing is being built even if the rule is not out.</p>
+      <p class="src"><a href="https://www.thedroneu.com/blog/faa-part-108-privacy-act-sorn-dot-faa-860/">Drone U, Nov 2026</a> · <a href="https://uavcoach.com/part-108-stuck/">UAV Coach, Sep 16</a></p>
+    </li>
+    <li class="hot">
+      <h3>Drone field notes: a 3D-printed listening post, a laser on a Bullfrog, and Skydio's new owner-partner</h3>
+      <p>The Army tested a 3D-printed acoustic drone detector in South Korea under Project Manowar. Attalon and ACS paired the Valaris laser with the Bullfrog counter-drone gun station. And the Axon–Skydio deal now has detail: $1.2 billion in cash and stock for about 20 percent more of Skydio at a $5.2 billion pre-money valuation, Axon as exclusive public-safety distributor in the U.S. and Canada, closing late 2026 or early 2027. Skydio says its drones beat officers to the scene on about 80 percent of "drone as first responder" calls.</p>
+      <p class="src"><a href="https://dronexl.co/2026/11/13/axon-skydio-1-2-billion-ring-drone-cam-nampa-amazon-flight-data/">DroneXL, Nov 13–15</a></p>
+    </li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s5">
+  <div class="sec-head"><span class="num">05</span><h2 id="s5">Markets and Crypto</h2></div>
+  <p class="label">Numbers that moved this week. Information only, not investment advice.</p>
+  <ul class="numbers">
+    <li>
+      <div class="big down">−12.75%<small>Nvidia, week</small></div>
+      <div><p>Nvidia closed at $162.85 on November 13, a sixth straight weekly loss and below $4 trillion in market value. The Philadelphia Semiconductor Index went the other way, up 8.05 percent, as money rotated into AMD, Micron and other chipmakers. That gap is the Huang premium coming out.</p><p class="src"><a href="https://theglassdesk.substack.com/p/weekly-market-review-nov-13-2026">The Glass Desk, Nov 13</a></p></div>
+    </li>
+    <li>
+      <div class="big up">+2.51%<small>S&amp;P 500, week</small></div>
+      <div><p>The S&amp;P 500 recovered to 7,561.67 after the prior week's election selloff. The bigger story was bonds: the 10-year Treasury yield jumped about 0.3 points to 5.154 percent after October inflation (consumer prices up 0.4 percent, producer prices up 6.5 percent year over year) pushed futures to fully price a Federal Reserve rate hike at the December 8–9 meeting. Governor Waller floated a half-point move.</p><p class="src"><a href="https://theglassdesk.substack.com/p/weekly-market-review-nov-13-2026">The Glass Desk, Nov 13</a></p></div>
+    </li>
+    <li>
+      <div class="big down">$62,112<small>Bitcoin low, Nov 15</small></div>
+      <div><p>Bitcoin fell 13.3 percent on the week to $65,821 and touched its lowest level since July, breaking its 200-week average on Saturday. Ether lost 18 percent to $1,837. About $2 billion in leveraged positions were liquidated in 24 hours. U.S. spot Bitcoin exchange-traded funds (ETFs) lost $1.07 billion for the week, $908 million of it from BlackRock's IBIT; Ether ETFs lost $399 million. Dollar stablecoins in circulation fell $4.5 billion to $287.4 billion.</p><p class="src"><a href="https://thecryptodesk.substack.com/p/the-sunday-crypto-desk-15-november">The Sunday Crypto Desk, Nov 15</a> · <a href="https://www.goodman-macro.com/en/articles/20261116-crypto-flows/">Goodman Macro, Nov 16</a></p></div>
+    </li>
+    <li>
+      <div class="big">3<small>Trezor wallets with implants</small></div>
+      <div><p>Crypto infrastructure, not price: Trezor confirmed three Safe 5 hardware wallets sold through a former Southeast Asian reseller carried physical implants that stole recovery phrases; firmware released November 11 blocks them. Buy hardware wallets only from the maker. On the institutional side, the New York Stock Exchange picked Avalanche's technology for the ledger behind a planned tokenized-stock venue, and the Depository Trust &amp; Clearing Corporation plans to connect its tokenization service to Solana in the second half of 2027. MSCI will drop Strategy (the big Bitcoin holder) from its global indexes on November 30.</p><p class="src"><a href="https://thecryptodesk.substack.com/p/the-sunday-crypto-desk-15-november">The Sunday Crypto Desk, Nov 15</a></p></div>
+    </li>
+    <li>
+      <div class="big up">+13–18%<small>PC DRAM contract, Q4 est.</small></div>
+      <div><p>TrendForce's November 11 note says PC DRAM contract prices rise 13 to 18 percent quarter over quarter in Q4, slower than Q3 but still up, while client solid-state drives (SSDs) rise under 5 percent as laptop makers cut orders. Suppliers are raising prices hardest on small-capacity SSDs. This is why the Switch 2 bundle, graphics cards and laptops all cost more than last year.</p><p class="src"><a href="https://www.trendforce.com/presscenter/news/20261111-13303.html">TrendForce, Nov 11</a></p></div>
+    </li>
+  </ul>
+</section>
+
+<section class="card" aria-labelledby="s6">
+  <div class="sec-head"><span class="num">06</span><h2 id="s6">Forecast</h2></div>
+  <p class="label">Three new calls for the next 90 days (resolve by February 14, 2027). Each one can be checked and marked right or wrong.</p>
+  <ul class="calls">
+    <li>
+      <p>Anthropic prices its IPO and ANT begins trading on Nasdaq on or before Wednesday, November 25, 2026.</p>
+      <span class="conf">85%</span>
+    </li>
+    <li>
+      <p>ULA launches another Vulcan rocket (any payload) on or before February 14, 2027. We think the investigation into a second failure in a year takes longer than that.</p>
+      <span class="conf">15%</span>
+    </li>
+    <li>
+      <p>Nvidia names a permanent CEO (not interim) on or before February 14, 2027.</p>
+      <span class="conf">35%</span>
+    </li>
+  </ul>
+  <p class="label">Grading Issue 02 (published November 9)</p>
+  <ul class="calls grading">
+    <li>
+      <p>Nvidia's board reports the outcome of its investigation by Feb 7, 2027, and Jensen Huang is still CEO on that date (70%).</p>
+      <span class="conf miss">Wrong</span>
+      <p class="grade">Resolved no on November 12. Huang resigned four days after we gave him 70 percent to stay. The board had said it had "full confidence" on Sunday; by Wednesday Reuters reported it was weighing removal. Lesson: a board statement of confidence is not evidence.</p>
+    </li>
+    <li>
+      <p>Anthropic prices its IPO and ANT trades on Nasdaq by Dec 31, 2026 (60%).</p>
+      <span class="conf pending">Pending</span>
+      <p class="grade">Trending yes: range set, book covered, pricing November 18, trading November 19.</p>
+    </li>
+    <li>
+      <p>SpaceX attempts a Starship upper-stage catch at the tower by Dec 31, 2026 (40%).</p>
+      <span class="conf hit">Right</span>
+      <p class="grade">Resolved yes on November 14, and the catch succeeded. We were right but underconfident; SpaceX had the date set and the hardware stacked.</p>
+    </li>
+  </ul>
+  <p class="label">Grading Issue 01 (published November 8)</p>
+  <ul class="calls grading">
+    <li>
+      <p>Starship Flight 15 launches on or before November 30, 2026 (65%).</p>
+      <span class="conf hit">Right</span>
+      <p class="grade">Launched November 13.</p>
+    </li>
+    <li>
+      <p>FAA Part 108 rule published in the Federal Register by February 7, 2027 (45%).</p>
+      <span class="conf pending">Pending</span>
+      <p class="grade">Still at the White House. Statutory deadline December 7.</p>
+    </li>
+    <li>
+      <p>At least one state other than Texas announces a statewide pause or mandatory review on data-center permits by February 7, 2027 (55%).</p>
+      <span class="conf pending">Pending</span>
+      <p class="grade">Correction: as written this was already true before we made the call. New York imposed a one-year pause on large data centers in July 2026, and Oregon paused projects on state land in September. We will grade it only on a new announcement made after November 8. None yet; new governors take office in January.</p>
+    </li>
+  </ul>
+  <p class="src"><a href="https://www.eenews.net/articles/hochul-to-approve-nations-first-state-level-data-center-pause/">E&amp;E News on New York's pause</a> · <a href="https://katu.com/news/politics/oregon-gov-kotek-calls-for-immediate-pause-on-data-center-requests-for-state-owned-land-ai-center-moratorium-energy-community-impacts">KATU on Oregon's pause, Sep 8</a></p>
+</section>
+
+<section class="card mission" aria-labelledby="s7">
+  <div class="sec-head"><span class="num">07</span><h2 id="s7">Your Mission</h2></div>
+  <h3>This week's path: Linux + Defensive Cybersecurity</h3>
+  <p>An OpenSSH bug on Linux let attackers skip the login and plant their own keys; an Outlook file leaked password hashes; three breaches came in through someone else's vendor; and AWS's busiest region went dark for four hours. Every one of those is a defender's job: patching, key hygiene, hash-based attacks, third-party risk and multi-zone design. If you learn to read a CVE (Common Vulnerabilities and Exposures) notice and harden an SSH server this week, you understand the news better than most people who wrote it.</p>
+  <a class="cta" href="https://missionstack.madethis.app/academy?utm_source=promo_site&amp;utm_medium=tech_snapshot&amp;utm_campaign=issue_03">Open the Academy</a>
+  <p class="src"><a href="https://thehackernews.com/2026/11/cisa-warns-of-active-exploitation-of.html">The Hacker News, Nov 9</a> · <a href="https://www.tenable.com/blog/microsoft-november-2026-patch-tuesday-addresses-1093-cves-cve-2026-124194">Tenable, Nov 10</a> · <a href="https://gbhackers.com/aws-confirms-major-us-east-1-outage/">GBHackers, Nov 15</a></p>
+</section>
+
+<section class="card sources" aria-labelledby="s8">
+  <div class="sec-head"><span class="num">SRC</span><h2 id="s8">Sources</h2></div>
+  <p class="label">Every page opened for this issue, in the order the sections use them.</p>
+  <ol>
+    <li><a href="https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000082/nvidiaannouncesceotransiti.htm">SEC EDGAR: Nvidia announces CEO transition, Form 8-K exhibit (Nov 12)</a></li>
+    <li><a href="https://www.aljazeera.com/news/2026/11/12/why-did-nvidia-ceo-jensen-huang-resign-and-who-is-colette-kress">Al Jazeera: Why did Jensen Huang resign, and who is Colette Kress? (Nov 12)</a></li>
+    <li><a href="https://theglassdesk.substack.com/p/weekly-market-review-nov-13-2026">The Glass Desk: Weekly market review (Nov 13)</a></li>
+    <li><a href="https://www.space.com/news/live/spacex-starship-flight-15-live-updates-nov-14-2026-starship-first-double-landing-attempt">Space.com: Starship Flight 15 live updates (Nov 13–14)</a></li>
+    <li><a href="https://www.space.com/space-exploration/launches-spacecraft/spacex-says-starship-flight-15-booster-aborted-chopsticks-landing-catch-after-launch-due-to-guidance-issue-video">Space.com: SpaceX still investigating booster abort (Nov 14)</a></li>
+    <li><a href="https://aviationweek.com/space/operations-safety/starship-flight-15-ends-first-ship-tower-catch">Aviation Week: Starship Flight 15 ends with first ship tower catch (Nov 14)</a></li>
+    <li><a href="https://fortune.com/2026/11/10/anthropic-ipo-price-range-ai-stock-sell-off/">Fortune: Anthropic sets IPO range valuing it at up to $1.4 trillion (Nov 10)</a></li>
+    <li><a href="https://stockanalysis.com/news/anthropic-ipo-multiple-times-oversubscribed/">StockAnalysis: Anthropic IPO said to be multiple times oversubscribed (Nov 11)</a></li>
+    <li><a href="https://ir.amd.com/news-events/press-releases/detail/1305/amd-showcases-6th-gen-amd-epyc-processors-to-lead-next-era-of-ai-and-enterprise-computing">AMD: 6th Gen EPYC processors press release (Nov 10)</a></li>
+    <li><a href="https://blog.senthorus.ch/posts/weekly_reviews/16_11_2026">Senthorus: Cybersecurity week in review, Nov 9–15 (Nov 16)</a></li>
+    <li><a href="https://dronexl.co/2026/11/13/axon-skydio-1-2-billion-ring-drone-cam-nampa-amazon-flight-data/">DroneXL: Axon–Skydio, Ring Drone Cam, Nampa flight data (Nov 13)</a></li>
+    <li><a href="https://www.nintendolife.com/">Nintendo Life: front page, Nov 9–15 headlines</a></li>
+    <li><a href="https://www.satellitetoday.com/launch/2026/11/15/ula-set-to-return-vulcan-to-flight-in-first-amazon-leo-launch/">Via Satellite: ULA Vulcan suffers anomaly during first Amazon Leo launch (Nov 15)</a></li>
+    <li><a href="https://www.cfpublic.org/space/2026-11-13/ulas-vulcan-rocket-returns-to-flight-after-9-month-grounding">Central Florida Public Media: Vulcan's Amazon delivery delayed (Nov 13)</a></li>
+    <li><a href="https://www.tenable.com/blog/microsoft-november-2026-patch-tuesday-addresses-1093-cves-cve-2026-124194">Tenable: Microsoft November 2026 Patch Tuesday, 1,093 CVEs (Nov 10)</a></li>
+    <li><a href="https://thehackernews.com/2026/11/cisa-warns-of-active-exploitation-of.html">The Hacker News: CISA warns of OpenSSH, GPUStack, FreeSWITCH, IBM exploitation (Nov 9)</a></li>
+    <li><a href="https://www.privacyguides.org/news/2026/11/13/data-breach-roundup-nov-6-12-2026/">Privacy Guides: Data breach roundup, Nov 6–12 (Nov 13)</a></li>
+    <li><a href="https://www.dbdigest.com/2026/11/data-breaches-digest-week-46-2026.html">Data Breaches Digest: Week 46, 2026</a></li>
+    <li><a href="https://gbhackers.com/aws-confirms-major-us-east-1-outage/">GBHackers: AWS confirms major US-EAST-1 outage (Nov 15)</a></li>
+    <li><a href="https://www.3dtested.com/pc-components/cpus/amd-zen-6-and-intel-nova-lake-cpus-reportedly-arriving-late-delayed-to-ces-2027-next-gen-chips-rocked-by-industry-turmoil">3DTested: Zen 6 and Nova Lake reportedly delayed to 2027</a></li>
+    <li><a href="https://www.trendforce.com/presscenter/news/20261111-13303.html">TrendForce: PC OEMs adjust memory purchasing plans (Nov 11)</a></li>
+    <li><a href="https://www.marketscreener.com/news/chip-tensions-loom-over-trump-xi-summit-as-us-and-china-push-ai-safety-steps-ce785eded180f126">Reuters via MarketScreener: Chip tensions loom over Trump–Xi summit (Nov 16)</a></li>
+    <li><a href="https://www.aljazeera.com/news/2026/11/12/trump-heads-to-china-amid-nvidia-scandal-will-he-get-tougher-on-beijing">Al Jazeera: Trump heads to China amid Nvidia scandal (Nov 12)</a></li>
+    <li><a href="https://abcnews.com/International/ukraine-russia-exchange-hundreds-drones-day-2-abu/story?id=138038984">ABC News: Russia–Ukraine talks end without breakthrough amid drone barrage (Nov 11)</a></li>
+    <li><a href="https://www.cfr.org/articles/what-the-abu-dhabi-talks-did-and-didnt-achieve">Council on Foreign Relations: What the Abu Dhabi talks did and didn't achieve (Nov 13)</a></li>
+    <li><a href="https://www.airandspaceforces.com/after-midterms-congress-reckon-defense-funding-ndaa/">Air &amp; Space Forces Magazine: After midterms, Congress returns to reckon with defense funding, NDAA (Nov 9)</a></li>
+    <li><a href="https://www.defenseone.com/policy/2026/11/blue-wave-presages-defense-spending-showdown/417111/">Defense One: Blue wave presages defense spending showdown (Nov 6)</a></li>
+    <li><a href="https://www.thedroneu.com/blog/faa-part-108-privacy-act-sorn-dot-faa-860/">Drone U: FAA's new Part 108 Privacy Act notice, comments due Dec 3</a></li>
+    <li><a href="https://uavcoach.com/part-108-stuck/">UAV Coach: FAA says Part 108 is on the "10-yard line" (Sep 16)</a></li>
+    <li><a href="https://thecryptodesk.substack.com/p/the-sunday-crypto-desk-15-november">The Sunday Crypto Desk (Nov 15)</a></li>
+    <li><a href="https://www.goodman-macro.com/en/articles/20261116-crypto-flows/">Goodman Macro: Bitcoin and Ether ETFs lose $1.464 billion (Nov 16)</a></li>
+    <li><a href="https://news.clearancejobs.com/?p=1167424">ClearanceJobs: DoD contracts valued at $7.5 million and above (Nov 10)</a></li>
+    <li><a href="https://www.eenews.net/articles/hochul-to-approve-nations-first-state-level-data-center-pause/">E&amp;E News: Hochul to approve nation's first state-level data center pause (Jul 2026)</a></li>
+    <li><a href="https://katu.com/news/politics/oregon-gov-kotek-calls-for-immediate-pause-on-data-center-requests-for-state-owned-land-ai-center-moratorium-energy-community-impacts">KATU: Oregon Gov. Kotek pauses data center requests on state land (Sep 8)</a></li>
+  </ol>
+</section>
+
+<footer class="colophon">
+  <p>MissionStack Tech Snapshot is published by MissionStack Academy for learners 13 and up and for adults changing careers. Nothing here is investment, legal or safety advice. Figures are as reported by the linked sources on the dates shown.</p>
+  <p class="mono">missionstack.madethis.app · missionstack1@gmail.com · Issue 03 · 2026-11-16</p>
+</footer>
+</div>
+</body>
+</html>
